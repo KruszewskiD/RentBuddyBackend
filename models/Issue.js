@@ -1,11 +1,11 @@
 class Issue{
-    constructor(propertyId, creatorId){
-        this.issueId;
+    constructor(issueId, propertyId, creatorId, resolverId, description, resolveStatus="open"){
+        this.issueId = issueId
         this.propertyId = propertyId;
-        this.creatorId = creatorIdId;
+        this.creatorId = creatorId;
         this.resolverId = resolverId;
         this.description = description;
-        this.resolveStatus = "open";
+        this.resolveStatus = resolveStatus;
     }
     static create(){
         // TODO: Create issue in database.

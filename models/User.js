@@ -1,12 +1,12 @@
 class User{
-    constructor(firstName, lastName, email, username, password){
-        this.id;
+    constructor(userId,firstName, lastName, email, username, password, role="user"){
+        this.userId=userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.username = username;
         this.password = password;
-        this.role = "user"
+        this.role = role;
     }
     static create(){
         // TODO: Add user to database

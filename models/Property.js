@@ -1,9 +1,9 @@
 class Property{
-    constructor(){
-        this.propertyId;
+    constructor(propertyId,address, ownerId, tenatId=null){
+        this.propertyId=propertyId;
         this.address = address;
         this.ownerId = ownerId;
-        this.tenatId = null;
+        this.tenatId = tenatId;
     }
     static create(){
         // TODO: Create property in database.
