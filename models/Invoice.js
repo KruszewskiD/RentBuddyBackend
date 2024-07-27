@@ -18,8 +18,8 @@ class Invoice{
             INTO invoices (amount, sender_id, receiver_id, property_id) 
             VALUES ($1, $2, $3, $4) RETURNING *
             `, [amount, senderId,receiverId, propertyId])
-        const {invoice_id, amount, status, sender_id, receiver_id, property_id, created_at, updated_at} = result.rows[0]
-        return new Invoice(invoice_id, amount, status, sender_id, receiver_id, property_id, created_at, updated_at)
+        const responseData= result.rows[0]
+        return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
     }
 
     static findById(){

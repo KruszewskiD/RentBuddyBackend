@@ -6,6 +6,7 @@ const express = require('express')
 const mainRoutes = require("./routes/main")
 const { createTables } = require('./config/db')
 
+
 const app = express()
 const port = 3000
 
