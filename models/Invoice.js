@@ -6,6 +6,8 @@ class Invoice{
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.propertyId = propertyId;
+        this.created_at = new Date();
+        this.updated_at = null
     }
     
     static create(){

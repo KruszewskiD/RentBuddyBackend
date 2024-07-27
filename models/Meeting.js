@@ -1,7 +1,13 @@
 class Meeting {
-    constructor(){
-        //TODO: Create a valid constructor
-    }
+    constructor(meetingId, title, description, startTime, endTime, creatorId, participants = []) {
+        this.meetingId = meetingId;
+        this.title = title;
+        this.description = description;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.creatorId = creatorId;
+        this.participants = participants;
+      }
     static create(){
         // TODO: Save meeting to database
     }
