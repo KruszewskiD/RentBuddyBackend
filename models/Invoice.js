@@ -1,21 +1,25 @@
 const { pool } = require("../config/db");
 
 class Invoice{
-    constructor(invoiceId, amount, status="created", senderId,receiverId,propertyId, created_at = new Date(), updated_at=null){
+    constructor(invoiceId, amount, status, senderId, receiverId, propertyId, createdAt, updatedAt){
         this.invoiceId = invoiceId;
         this.amount = amount;
         this.status = status; // pending https://easydigitaldownloads.com/docs/what-do-the-different-payment-statuses-mean/
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.propertyId = propertyId;
-        this.created_at = created_at
-        this.updated_at = updated_at
+        this.createdAt = createdAt
+        this.updatedAt = updatedAt
     }
     
-    static create(){
-        // TODO: Should create Invoince in database
-        // TODO: Should contains a info about creator and reciver
-        pool.query("INSERT INTO invoices (invoice_id)")
+    static async create(amount, senderId, receiverId, propertyId){
+        const result = await pool.query(`
+            INSERT 
+            INTO invoices (amount, sender_id, receiver_id, property_id) 
+            VALUES ($1, $2, $3, $4) RETURNING *
+            `, [amount, senderId,receiverId, propertyId])
+        const {invoice_id, amount, status, sender_id, receiver_id, property_id, created_at, updated_at} = result.rows[0]
+        return new Invoice(invoice_id, amount, status, sender_id, receiver_id, property_id, created_at, updated_at)
     }
 
     static findById(){
