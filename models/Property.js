@@ -8,7 +8,7 @@ class Property{
     static async create(address, owner_id, tenant_id){
         const result = await pool.query(`
             INSERT 
-            INTO users (address, owner_id, tenant_id) 
+            INTO properties (address, owner_id, tenant_id) 
             VALUES ($1, $2, $3) RETURNING *
             `, [address, owner_id, tenant_id])
         const responseData = result.rows[0]
@@ -30,3 +30,5 @@ class Property{
         // TODO: Only owner should have ability to evict an tenant
     }
 }
+
+module.exports = Property;

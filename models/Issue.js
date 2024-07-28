@@ -35,3 +35,5 @@ class Issue{
         //TODO: Update issue data in DB
     }
 }
+
+module.exports = Issue;

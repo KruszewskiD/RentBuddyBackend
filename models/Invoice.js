@@ -24,7 +24,6 @@ class Invoice{
 
     static findById(){
         // TODO: Should recive an argument and then return single Invoice from DB
-
     }
 
     static findBySenderId(){
@@ -36,7 +35,8 @@ class Invoice{
     }
     static findByPropertyId(){
             // TODO: Should query database to and return Array of invoices by Propery ID
-
     }
 
 }
+
+module.exports = Invoice;

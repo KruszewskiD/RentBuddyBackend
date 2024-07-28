@@ -11,7 +11,7 @@ class Meeting {
     static async create(title, desc, start_time, end_time, creator_id, participant_id){
         const result = await pool.query(`
             INSERT 
-            INTO issues (title, description, start_time, end_time, creator_id, participant_id) 
+            INTO meetings (title, description, start_time, end_time, creator_id, participant_id) 
             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
             `, [title, desc, start_time, end_time, creator_id, participant_id])
         const responseData= result.rows[0]
@@ -25,5 +25,8 @@ class Meeting {
     }
     upadte(){
         //TODO: Update meeting data in DB
+ 
     }
 }
+
+module.exports = Meeting;
