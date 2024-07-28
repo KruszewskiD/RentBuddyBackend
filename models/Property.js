@@ -21,7 +21,7 @@ class Property{
         const responseData= result.rows[0]
         return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
     }
-    upadte(){
+    update(){
         //TODO: Update property data in DB
 
     }
