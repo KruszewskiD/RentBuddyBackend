@@ -28,7 +28,7 @@ const createTables = async () => {
             property_id SERIAL PRIMARY KEY,
             address VARCHAR(255) NOT NULL,
             owner_id INTEGER NOT NULL REFERENCES users(user_id),
-            tenant_id INTEGER REFERENCES users(user_id)
+            tenant_id INTEGER REFERENCES users(user_id) DEFAULT NULL
         );
     `);
     //TWORZENIE TABELI Z PROBLEMAMI
@@ -40,7 +40,7 @@ const createTables = async () => {
             resolver_id INTEGER REFERENCES users(user_id),
             description TEXT NOT NULL,
             resolve_status VARCHAR(50) NOT NULL DEFAULT 'open',
-            title TEXT NOT NULL,
+            title TEXT NOT NULL
         );
     `);
     //TWORZENIE TABELI Z FAKTURAMI
@@ -64,7 +64,8 @@ const createTables = async () => {
           description TEXT,
           start_time TIMESTAMP NOT NULL,
           end_time TIMESTAMP NOT NULL,
-          creator_id INTEGER NOT NULL REFERENCES users(user_id)
+          creator_id INTEGER NOT NULL REFERENCES users(user_id),
+          participant_id INTEGER NOT NULL REFERENCES users(user_id)
         );
     `);
 
