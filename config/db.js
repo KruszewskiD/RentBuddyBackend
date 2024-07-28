@@ -39,7 +39,8 @@ const createTables = async () => {
             creator_id INTEGER NOT NULL REFERENCES users(user_id),
             resolver_id INTEGER REFERENCES users(user_id),
             description TEXT NOT NULL,
-            resolve_status VARCHAR(50) NOT NULL DEFAULT 'open'
+            resolve_status VARCHAR(50) NOT NULL DEFAULT 'open',
+            title TEXT NOT NULL,
         );
     `);
     //TWORZENIE TABELI Z FAKTURAMI

@@ -12,12 +12,12 @@ class Invoice{
         this.updatedAt = updatedAt
     }
     
-    static async create(amount, senderId, receiverId, propertyId){
+    static async create(amount, sender_id, receiver_id, property_id){
         const result = await pool.query(`
             INSERT 
             INTO invoices (amount, sender_id, receiver_id, property_id) 
             VALUES ($1, $2, $3, $4) RETURNING *
-            `, [amount, senderId,receiverId, propertyId])
+            `, [amount, sender_id,receiver_id, property_id])
         const responseData= result.rows[0]
         return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
     }

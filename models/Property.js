@@ -5,8 +5,14 @@ class Property{
         this.ownerId = ownerId;
         this.tenatId = tenatId;
     }
-    static create(){
-        // TODO: Create property in database.
+    static async create(address, owner_id, tenant_id){
+        const result = await pool.query(`
+            INSERT 
+            INTO users (address, owner_id, tenant_id) 
+            VALUES ($1, $2, $3) RETURNING *
+            `, [address, owner_id, tenant_id])
+        const responseData = result.rows[0]
+        return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
     }
     static findById(){
         //TODO: Find and property by propertyId

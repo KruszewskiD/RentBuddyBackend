@@ -1,15 +1,21 @@
 class Meeting {
-    constructor(meetingId, title, description, startTime, endTime, creatorId, participants = []) {
+    constructor(meetingId, title, description, startTime, endTime, creatorId, participantId) {
         this.meetingId = meetingId;
         this.title = title;
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.creatorId = creatorId;
-        this.participants = participants;
+        this.participant = participantId;
       }
-    static create(){
-        // TODO: Save meeting to database
+    static async create(title, desc, start_time, end_time, creator_id, participant_id){
+        const result = await pool.query(`
+            INSERT 
+            INTO issues (title, description, start_time, end_time, creator_id, participant_id) 
+            VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
+            `, [title, desc, start_time, end_time, creator_id, participant_id])
+        const responseData= result.rows[0]
+        return new Meeting(responseData.meeting_id, responseData.title, responseData.description, responseData.start_time, responseData.end_time, responseData.creator_id, responseData.participant_id)
     }
     static findById(){
         // TODO: Query DB to recive Meeting by meetingId

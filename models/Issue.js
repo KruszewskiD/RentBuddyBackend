@@ -1,14 +1,21 @@
 class Issue{
-    constructor(issueId, propertyId, creatorId, resolverId, description, resolveStatus="open"){
+    constructor(issueId, title, description, resolveStatus, propertyId, creatorId, resolverId){
         this.issueId = issueId
+        this.title = title
+        this.description = description;
+        this.resolveStatus = resolveStatus;
         this.propertyId = propertyId;
         this.creatorId = creatorId;
         this.resolverId = resolverId;
-        this.description = description;
-        this.resolveStatus = resolveStatus;
     }
-    static create(){
-        // TODO: Create issue in database.
+    static async create( title, desc, property_id, creator_id, resolver_id){
+        const result = await pool.query(`
+            INSERT 
+            INTO issues (property_id, creator_id, resolver_id, description, title) 
+            VALUES ($1, $2, $3, $4, $5) RETURNING *
+            `, [property_id, creator_id, resolver_id, desc, title])
+        const responseData= result.rows[0]
+        return new Issue(responseData.issue_id, responseData.property_id, responseData.creator_id, responseData.resolver_id, responseData.description, responseData.resolve_status, responseData.title)
     }
 
     static findById(){
