@@ -14,8 +14,12 @@ class Property{
         const responseData = result.rows[0]
         return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
     }
-    static findById(){
-        //TODO: Find and property by propertyId
+    static async findById(property_id){
+        const result = await pool.query(`
+            SELECT * FROM properties WHERE property_id=$1
+            `, [property_id])
+        const responseData= result.rows[0]
+        return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
     }
     upadte(){
         //TODO: Update property data in DB

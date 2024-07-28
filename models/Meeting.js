@@ -17,8 +17,12 @@ class Meeting {
         const responseData= result.rows[0]
         return new Meeting(responseData.meeting_id, responseData.title, responseData.description, responseData.start_time, responseData.end_time, responseData.creator_id, responseData.participant_id)
     }
-    static findById(){
-        // TODO: Query DB to recive Meeting by meetingId
+    static async findById(meeting_id){
+        const result = await pool.query(`
+            SELECT * FROM meetings WHERE meeting_id=$1
+            `, [meeting_id])
+        const responseData= result.rows[0]
+        return new Meeting(responseData.meeting_id, responseData.title, responseData.description, responseData.start_time, responseData.end_time, responseData.creator_id, responseData.participant_id)
     }
     static findByUserId(){
         //TODO: Query DB to recive Meetings Array with meeting data for particular user.

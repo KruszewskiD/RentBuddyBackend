@@ -20,9 +20,14 @@ class User{
         return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role)
     }
 
-    static findById(){
-        // TODO: Query DB to find user by passed ID Argument
+    static async findById(user_id){
+        const result = await pool.query(`
+            SELECT * FROM users WHERE user_id=$1
+            `, [property_id])
+        const responseData= result.rows[0]
+        return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role)
     }
+
     update(){
         // TODO: Update user data in database
     }

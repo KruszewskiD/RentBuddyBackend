@@ -22,8 +22,12 @@ class Invoice{
         return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
     }
 
-    static findById(){
-        // TODO: Should recive an argument and then return single Invoice from DB
+    static async findById(invoice_id){
+        const result = await pool.query(`
+            SELECT * FROM invoices WHERE invoice_id=$1
+            `, [invoice_id])
+        const responseData= result.rows[0]
+        return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
     }
 
     static findBySenderId(){

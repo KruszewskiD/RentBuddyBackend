@@ -18,9 +18,14 @@ class Issue{
         return new Issue(responseData.issue_id, responseData.property_id, responseData.creator_id, responseData.resolver_id, responseData.description, responseData.resolve_status, responseData.title)
     }
 
-    static findById(){
-        // TODO: Query DB to find user by passed ID Argument
+    static async findById(issue_id){
+        const result = await pool.query(`
+            SELECT * FROM issues WHERE issue_id=$1
+            `, [issue_id])
+        const responseData= result.rows[0]
+        return new Issue(responseData.issue_id, responseData.property_id, responseData.creator_id, responseData.resolver_id, responseData.description, responseData.resolve_status, responseData.title)
     }
+
     static findByCreatorId(){
         // TODO: Query DB to find user by passed ID Argument
     }
