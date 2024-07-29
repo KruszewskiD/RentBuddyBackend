@@ -18,16 +18,16 @@ class Invoice{
             INTO invoices (amount, sender_id, receiver_id, property_id) 
             VALUES ($1, $2, $3, $4) RETURNING *
             `, [amount, sender_id,receiver_id, property_id])
-        const responseData= result.rows[0]
-        return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
+        const invoice = result.rows[0]
+        return new Invoice(invoice.invoice_id, invoice.amount, invoice.status, invoice.sender_id, invoice.receiver_id, invoice.property_id, invoice.created_at, invoice.updated_at)
     }
 
     static async findById(invoice_id){
         const result = await pool.query(`
             SELECT * FROM invoices WHERE invoice_id=$1
             `, [invoice_id])
-        const responseData= result.rows[0]
-        return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
+        const invoice = result.rows[0]
+        return new Invoice(invoice.invoice_id, invoice.amount, invoice.status, invoice.sender_id, invoice.receiver_id, invoice.property_id, invoice.created_at, invoice.updated_at)
     }
 
     static async findBySenderId(sender_id){

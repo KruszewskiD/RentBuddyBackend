@@ -16,16 +16,16 @@ class User{
             INTO users (first_name, last_name, email, username, password, role) 
             VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
             `, [first_name, last_name, email, username, password, role])
-        const responseData = result.rows[0]
-        return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role)
+        const user = result.rows[0]
+        return new User(user.user_id, user.first_name, user.last_name, user.email, user.username, user.password, user.role)
     }
 
     static async findById(user_id){
         const result = await pool.query(`
             SELECT * FROM users WHERE user_id=$1
             `, [property_id])
-        const responseData= result.rows[0]
-        return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role)
+        const user= result.rows[0]
+        return new User(user.user_id, user.first_name, user.last_name, user.email, user.username, user.password, user.role)
     }
 
     async update(){
@@ -34,8 +34,8 @@ class User{
            SET first_name = $1, last_name = $2, email = $3, username = $4, password = $5, role = $6 
            WHERE user_id = $7 RETURNING *
        `, [this.firstName, this.lastName, this.email, this.username, this.password, this.role, this.userId]);
-       const responseData = result.rows[0];
-       return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role);
+       const user = result.rows[0];
+       return new User(user.user_id, user.first_name, user.last_name, user.email, user.username, user.password, user.role);
    }
     
 }

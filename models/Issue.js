@@ -14,16 +14,16 @@ class Issue{
             INTO issues (property_id, creator_id, resolver_id, description, title) 
             VALUES ($1, $2, $3, $4, $5) RETURNING *
             `, [property_id, creator_id, resolver_id, desc, title])
-        const responseData= result.rows[0]
-        return new Issue(responseData.issue_id, responseData.property_id, responseData.creator_id, responseData.resolver_id, responseData.description, responseData.resolve_status, responseData.title)
+        const issue= result.rows[0]
+        return new Issue(issue.issue_id, issue.property_id, issue.creator_id, issue.resolver_id, issue.description, issue.resolve_status, issue.title)
     }
 
     static async findById(issue_id){
         const result = await pool.query(`
             SELECT * FROM issues WHERE issue_id=$1
             `, [issue_id])
-        const responseData= result.rows[0]
-        return new Issue(responseData.issue_id, responseData.property_id, responseData.creator_id, responseData.resolver_id, responseData.description, responseData.resolve_status, responseData.title)
+        const issue= result.rows[0]
+        return new Issue(issue.issue_id, issue.property_id, issue.creator_id, issue.resolver_id, issue.description, issue.resolve_status, issue.title)
     }
 
     static async findByCreatorId(creator_id){
@@ -51,9 +51,16 @@ class Issue{
         })
     }
 
-    upadte(){
-        //TODO
-    }
+    async update(){
+        const result = await pool.query(`
+           UPDATE issues 
+           SET property_id = $1, creator_id = $2, resolver_id = $3, description = $4, resolve_status = $5, title = $6 
+           WHERE user_id = $7 RETURNING *
+       `, [this.propertyId, this.creatorId, this.resolverId, this.description, this.resolveStatus, this.title]);
+       const issue = result.rows[0];
+       return new Issue(issue.issue_id, issue.property_id, issue.creator_id, issue.resolver_id, issue.description, issue.resolve_status, issue.title)
+   }
 }
 
 module.exports = Issue;
+

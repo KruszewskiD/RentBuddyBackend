@@ -12,15 +12,15 @@ class Property{
             INTO properties (address, owner_id, tenant_id) 
             VALUES ($1, $2, $3) RETURNING *
             `, [address, owner_id, tenant_id])
-        const responseData = result.rows[0]
-        return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
+        const property = result.rows[0]
+        return new Property(property.property_id,property.address, property.owner_id, property.tenant_id)
     }
     static async findById(property_id){
         const result = await pool.query(`
             SELECT * FROM properties WHERE property_id=$1
             `, [property_id])
-        const responseData= result.rows[0]
-        return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
+        const property = result.rows[0]
+        return new Property(property.property_id,property.address, property.owner_id, property.tenant_id)
     }
 
     static async findByOwnerId(owner_id){
