@@ -1,9 +1,10 @@
+const { pool } = require("../config/db");
 class Property{
-    constructor(propertyId,address, ownerId, tenatId=null){
+    constructor(propertyId,address, ownerId, tenantId=null){
         this.propertyId=propertyId;
         this.address = address;
         this.ownerId = ownerId;
-        this.tenatId = tenatId;
+        this.tenantId = tenantId;
     }
     static async create(address, owner_id, tenant_id){
         const result = await pool.query(`
@@ -22,13 +23,44 @@ class Property{
         return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
     }
 
-    rent(tenatId){
-        // TODO: Rent flat from owner to tenant
-        // TODO: Only owner of particular flat should have ability to rent a flat
+    static async findByOwnerId(owner_id){
+        const result = await pool.query(`
+            SELECT * FROM properties WHERE owner_id=$1
+            `, [owner_id])
+        return result.rows.map(property=>{
+            return new Property(property.property_id,property.address, property.owner_id, property.tenant_id)
+        })
     }
-    evict(tenatId){
-        // TODO: Evict tenat from the flat
-        // TODO: Only owner should have ability to evict an tenant
+
+
+    static async findByTenantId(tenant_id){
+        //TODO: Nie znajduje jesli tenant_id = null, powinno zwracac niewynajete mieszkania
+        const result = await pool.query(`
+            SELECT * FROM properties WHERE tenant_id=$1
+            `, [tenant_id])
+        return result.rows.map(property=>{
+            return new Property(property.property_id,property.address, property.owner_id, property.tenant_id)
+        })
+    }
+
+    async rent(tenant_id){
+        const result = await pool.query(`
+            UPDATE properties 
+            SET tenant_id=$1
+            WHERE property_id = $2 RETURNING *
+        `, [tenant_id, this.propertyId]);
+        const property = result.rows[0];
+        return new Property(property.property_id,property.address, property.owner_id, property.tenant_id)
+    }
+
+    async evict(){
+        const result = await pool.query(`
+            UPDATE properties 
+            SET tenant_id=null
+            WHERE property_id = $2 AND tenant_id=$1 RETURNING *
+        `, [this.tenantId, this.propertyId]);
+        const property = result.rows[0];
+        return new Property(property.property_id,property.address, property.owner_id, property.tenant_id)
     }
 }
 
