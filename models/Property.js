@@ -21,10 +21,7 @@ class Property{
         const responseData= result.rows[0]
         return new Property(responseData.property_id,responseData.address, responseData.owner_id, responseData.tenant_id)
     }
-    update(){
-        //TODO: Update property data in DB
 
-    }
     rent(tenatId){
         // TODO: Rent flat from owner to tenant
         // TODO: Only owner of particular flat should have ability to rent a flat

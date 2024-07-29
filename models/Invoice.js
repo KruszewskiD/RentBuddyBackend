@@ -30,15 +30,31 @@ class Invoice{
         return new Invoice(responseData.invoice_id, responseData.amount, responseData.status, responseData.sender_id, responseData.receiver_id, responseData.property_id, responseData.created_at, responseData.updated_at)
     }
 
-    static findBySenderId(){
-        // TODO: Should query database to and return Array of invoices by Sender ID
+    static async findBySenderId(sender_id){
+        const result = await pool.query(`
+            SELECT * FROM invoices WHERE sender_id=$1
+            `, [sender_id])
+        return result.rows.map((invoice)=>{
+            return new Invoice(invoice.invoice_id, invoice.amount, invoice.status, invoice.sender_id, invoice.receiver_id, invoice.property_id, invoice.created_at, invoice.updated_at)    
+        })
     }
+        
 
-    static findByReciverId(){
-            // TODO: Should query database to and return Array of invoices by Reciver ID
+    static async findByReciverId(receiver_id){
+        const result = await pool.query(`
+            SELECT * FROM invoices WHERE receiver_id=$1
+            `, [receiver_id])
+        return result.rows.map((invoice)=>{
+            return new Invoice(invoice.invoice_id, invoice.amount, invoice.status, invoice.sender_id, invoice.receiver_id, invoice.property_id, invoice.created_at, invoice.updated_at)    
+        })
     }
-    static findByPropertyId(){
-            // TODO: Should query database to and return Array of invoices by Propery ID
+    static async findByPropertyId(property_id){
+        const result = await pool.query(`
+            SELECT * FROM invoices WHERE property_id=$1
+            `, [property_id])
+        return result.rows.map((invoice)=>{
+            return new Invoice(invoice.invoice_id, invoice.amount, invoice.status, invoice.sender_id, invoice.receiver_id, invoice.property_id, invoice.created_at, invoice.updated_at)    
+        })
     }
 
 }

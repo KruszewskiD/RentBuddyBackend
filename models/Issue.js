@@ -26,18 +26,33 @@ class Issue{
         return new Issue(responseData.issue_id, responseData.property_id, responseData.creator_id, responseData.resolver_id, responseData.description, responseData.resolve_status, responseData.title)
     }
 
-    static findByCreatorId(){
-        // TODO: Query DB to find user by passed ID Argument
+    static async findByCreatorId(creator_id){
+        const result = await pool.query(`
+            SELECT * FROM issues WHERE creator_id=$1
+            `, [creator_id])
+        return result.rows[0].map(issue=>{
+            return new Issue(issue.issue_id, issue.property_id, issue.creator_id, issue.resolver_id, issue.description, issue.resolve_status, issue.title)
+        })
     }
-    static findByResolverId(){
-        // TODO: Query DB to find user by passed ID Argument
+    static async findByResolverId(resolver_id){
+        const result = await pool.query(`
+            SELECT * FROM issues WHERE resolver_id=$1
+            `, [resolver_id])
+        return result.rows[0].map(issue=>{
+            return new Issue(issue.issue_id, issue.property_id, issue.creator_id, issue.resolver_id, issue.description, issue.resolve_status, issue.title)
+        })
     }
-    static findByPropertyId(){
-        // TODO: Query DB to find user by passed ID Argument
+    static async findByPropertyId(property_id){
+        const result = await pool.query(`
+            SELECT * FROM issues WHERE property_id=$1
+            `, [property_id])
+        return result.rows[0].map(issue=>{
+            return new Issue(issue.issue_id, issue.property_id, issue.creator_id, issue.resolver_id, issue.description, issue.resolve_status, issue.title)
+        })
     }
 
     upadte(){
-        //TODO: Update issue data in DB
+        //TODO
     }
 }
 

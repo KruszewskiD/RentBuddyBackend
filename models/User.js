@@ -28,9 +28,15 @@ class User{
         return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role)
     }
 
-    update(){
-        // TODO: Update user data in database
-    }
+    async update(){
+        const result = await pool.query(`
+           UPDATE users 
+           SET first_name = $1, last_name = $2, email = $3, username = $4, password = $5, role = $6 
+           WHERE user_id = $7 RETURNING *
+       `, [this.firstName, this.lastName, this.email, this.username, this.password, this.role, this.userId]);
+       const responseData = result.rows[0];
+       return new User(responseData.user_id, responseData.first_name, responseData.last_name, responseData.email, responseData.username, responseData.password, responseData.role);
+   }
     
 }
 
