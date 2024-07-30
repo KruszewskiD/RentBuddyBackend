@@ -10,13 +10,28 @@ class InvoiceSerivce{
             const newInvoice = await Invoice.create(amount, senderId, receiverId, propertyId)
             
             return newInvoice
-        }catch(err){
+        }catch(error){
             throw new Error(`Error creating invoice: ${error.message}`);
         }
     }
-    static findInvoiceByUserId(){
-        //TODO: sentInvoices
-        //TODO: recivedInvoices
+    static async findInvoiceByUserId(user_id){
+        try{
+            if(!user_id) throw new Error("All fields are required");
+
+            const sendedInvoices = await Invoice.findBySenderId(user_id)
+            const recivedInvoices = await Invoice.findByReciverId(user_id)
+        
+            return{
+                sendedInvoices,
+                recivedInvoices
+            }
+
+        }catch(error){
+            
+            throw new Error(`Error finding invoices: ${error.message}`);
+        
+        }
+
     }
     static sendInvoice(){
         // TODO: Should send invoice from creator to reciver on email?
