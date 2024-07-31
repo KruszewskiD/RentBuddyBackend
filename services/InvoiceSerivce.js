@@ -33,9 +33,6 @@ class InvoiceSerivce{
         }
 
     }
-    static sendInvoice(){
-        // TODO: Should send invoice from creator to reciver on email?
-    }
     static updateInvoice(){
         //TODO: Update invoice data in DB
     }
