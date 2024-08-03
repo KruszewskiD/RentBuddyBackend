@@ -3,7 +3,7 @@ const Property = require("../models/Property")
 class PropertyService{
     static async createProperty(address, owner_id, tenant_id=null){
         try{
-            if (address, owner_id) {
+            if (!address || !owner_id) {
                 throw new Error("Address and owner_id are required");
             }
 
