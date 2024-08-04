@@ -3,6 +3,6 @@ const express = require("express")
 
 const router = express.Router();
 
-router.get("/property/:issueId",issueRouteController.getIssue)
+router.get("/issue/:issueId",issueRouteController.getIssue)
 
 module.exports = router

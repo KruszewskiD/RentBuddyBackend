@@ -3,6 +3,6 @@ const express = require("express")
 
 const router = express.Router();
 
-router.get("/property/:issueId",invoiceRouteController.getInvoice)
+router.get("/invoice/:invoiceId",invoiceRouteController.getInvoice)
 
 module.exports = router

@@ -3,6 +3,6 @@ const express = require("express")
 
 const router = express.Router();
 
-router.get("/property/:issueId",meetingRouteController.getMeeting)
+router.get("/meeting/:meetingId",meetingRouteController.getMeeting)
 
 module.exports = router
