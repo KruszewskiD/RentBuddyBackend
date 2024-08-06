@@ -1,11 +1,21 @@
 const InvoiceSerivce = require("../services/InvoiceSerivce")
 
-exports.createInvoice = (req, res) => {
-    const {amount, senderId, receiverId, propertyId} = req.body;
-    InvoiceSerivce.createInvoice(amount, senderId, receiverId, propertyId)
+exports.createInvoice = async (req, res) => {
+    try{
+        const {amount, senderId, receiverId, propertyId} = req.body;
+        const invoice = await InvoiceSerivce.createInvoice(amount, senderId, receiverId, propertyId)
+        res.status(201).json(invoice)
+    }catch(e){
+        res.status(500).json({message: e.message})
+    }
 }
 
-exports.getInvoice = (req, res) => {
-    const {invoiceId} = req.params;
-    InvoiceSerivce.getInvoice(invoiceId)
+exports.getInvoice = async (req, res) => {
+    try{
+        const {invoiceId} = req.params;
+        const invoice = await InvoiceSerivce.getInvoice(invoiceId);
+        res.status(201).json(invoice)
+    }catch (e){
+        res.status(500).json({message: e.message})
+    }
 }
