@@ -6,5 +6,6 @@ exports.createMeeting = (req, res) => {
 }
 
 exports.getMeeting = (req, res) => {
-    res.send('Hello World!')
+    const {meetingId} = req.params;
+    MeetingService.getMeeting(meetingId)
 }

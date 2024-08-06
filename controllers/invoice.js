@@ -6,5 +6,6 @@ exports.createInvoice = (req, res) => {
 }
 
 exports.getInvoice = (req, res) => {
-    res.send('Hello World!')
+    const {invoiceId} = req.params;
+    InvoiceSerivce.getInvoice(invoiceId)
 }

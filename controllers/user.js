@@ -7,5 +7,6 @@ exports.createUser = (req, res) => {
 }
 
 exports.getUser = (req, res) => {
-    res.send('Hello World!')
+    const {userId} = req.params;
+    UserService.getUser(userId)
 }

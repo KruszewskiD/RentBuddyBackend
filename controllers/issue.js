@@ -6,5 +6,6 @@ exports.createIssue = (req, res) => {
 }
 
 exports.getIssue = (req, res) => {
-    res.send('Hello World!')
+    const {issueId} = req.params;
+    IssueService.getIssue(issueId)
 }
