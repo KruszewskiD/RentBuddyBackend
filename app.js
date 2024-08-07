@@ -15,7 +15,7 @@ app.use(mainRoutes)
 const startServer = async () => {
   await createTables(); // Inicjalizacja tabel
   app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Example running port ${port}`)
   })  
 };
 
