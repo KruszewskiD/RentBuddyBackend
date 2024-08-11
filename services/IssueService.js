@@ -11,7 +11,7 @@ class IssueService{
             
             return newIssue
         }catch(err){
-            throw new Error(`Error creating meeting: ${error.message}`);
+            throw new Error(`Error creating meeting: "${error.message}"`);
         }
     }
 }
