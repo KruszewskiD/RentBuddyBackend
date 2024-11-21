@@ -1,4 +1,5 @@
 const Invoice = require("../models/Invoice");
+const { pool } = require("../config/db")
 
 class InvoiceSerivce{
     static async createInvoice(amount, senderId, receiverId, propertyId){
@@ -28,7 +29,7 @@ class InvoiceSerivce{
 
         }catch(error){
             
-            throw new Error(`Error finding invoices: ${error.message}`);
+            throw new Error(`Error finding invoices: ${err.message}`);
         
         }
 

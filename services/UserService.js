@@ -1,9 +1,11 @@
 const User = require("../models/User")
+const { pool } = require("../config/db")
 
-class UserService{
-    static async createUser(first_name, last_name, email, username, password, role="user"){
-        try{
-            if (!firstName || !lastName || !email || !username || !password || !role) {
+
+class UserService {
+    static async createUser(first_name, last_name, email, username, password, role = "user") {
+        try {
+            if (!first_name || !last_name || !email || !username || !password || !role) {
                 throw new Error("All fields are required");
             }
 
@@ -18,10 +20,27 @@ class UserService{
             }
 
             const newUser = await User.create(first_name, last_name, email, username, password, role)
-            
+
             return newUser
-        }catch(err){
-            throw new Error(`Error creating user: ${error.message}`);
+        } catch (err) {
+            console.log(`Error creating user: ${err.message}`);
+            return {}
+        }
+    }
+    static async findById(user_id) {
+        try {
+            if (!user_id) {
+                throw new Error("Pass user_id!")
+            }
+            const existingUserById = await User.findById(user_id)
+            if (!existingUserById) {
+                throw new Error("Could not find user with this user_id")
+            }
+            return existingUserById
+
+        } catch (e) {
+            throw ("Error:" + e)
+
         }
     }
 }

@@ -1,4 +1,5 @@
 const Meeting = require("../models/Meeting")
+const { pool } = require("../config/db")
 
 class MeetingService{
     static async createMeeting(title, desc, start_time, end_time, creator_id, participant_id){
@@ -11,7 +12,7 @@ class MeetingService{
             
             return newMeeting
         }catch(err){
-            throw new Error(`Error creating meeting: ${error.message}`);
+            throw new Error(`Error creating meeting: ${err.message}`);
         }
     }
 }

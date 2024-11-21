@@ -3,14 +3,15 @@ dotenv.config()
 
 const express = require('express')
 
-const mainRoutes = require("./routes/main")
+const UserService = require("./services/UserService")
+const PropertyService = require('./services/PropertyService')
+
 const { createTables } = require('./config/db')
 
 
 const app = express()
 const port = 3000
 
-app.use(mainRoutes)
 
 const startServer = async () => {
   await createTables(); // Inicjalizacja tabel
@@ -21,4 +22,14 @@ const startServer = async () => {
 
 startServer()
 
-
+// UserService.createUser("Aleksandra","Chomka","olachomka@gmail.com","ola_cho_trn","Test1234","user")
+// PropertyService.createProperty("Rydygiera 16/1, 87-100 Toruń",1 )
+// PropertyService.rentProperty(1,2)
+async function call(){
+  try{
+    console.log(await UserService.findById(33))
+  }catch(err){
+    console.log(err)
+  }
+}
+call()
