@@ -26,7 +26,21 @@ class User {
             `, [user_id])
 
         if (result.rows.length === 0) {
-            return null; // Lub: throw new Error("User not found");
+            return null;
+        }
+
+        const user = result.rows[0]
+
+        return new User(user.user_id, user.first_name, user.last_name, user.email, user.username, user.password, user.role)
+    }
+
+    static async findByUsername(username) {
+        const result = await pool.query(
+            "SELECT * FROM users WHERE username=$1"
+            , [username])
+
+        if (result.rows.length === 0) {
+            return null
         }
 
         const user = result.rows[0]

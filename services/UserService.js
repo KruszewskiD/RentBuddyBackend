@@ -14,9 +14,10 @@ class UserService {
                 throw new Error("Email already in use");
             }
 
-            const existingUserByUsername = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
-            if (existingUserByUsername.rows.length > 0) {
-                throw new Error("Username already in use");
+            const existingUserByUsername = await User.findByUsername(username)
+
+            if (existingUserByUsername) {
+                throw new Error("This username is registred in database. Try diffrent one.")
             }
 
             const newUser = await User.create(first_name, last_name, email, username, password, role)
@@ -33,13 +34,10 @@ class UserService {
                 throw new Error("Pass user_id!")
             }
             const existingUserById = await User.findById(user_id)
-            if (!existingUserById) {
-                throw new Error("Could not find user with this user_id")
-            }
             return existingUserById
 
         } catch (e) {
-            throw ("Error:" + e)
+            throw new Error("Error:" + e)
 
         }
     }
