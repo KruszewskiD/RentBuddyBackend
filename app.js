@@ -22,7 +22,7 @@ const startServer = async () => {
 
 startServer()
 
-UserService.createUser("Aleksandra", "Chomka", "olachomka1@gmail.com", "ola_cho_trn", "Test1234", "user")
+// UserService.createUser("Aleksandra", "Chomka", "olachomka1@gmail.com", "ola_cho_trn", "Test1234", "user")
 // PropertyService.createProperty("Rydygiera 16/1, 87-100 Toruń",1 )
 // PropertyService.rentProperty(1,2)
 // async function call(){
