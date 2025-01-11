@@ -1,9 +1,15 @@
-const userRouteController = require("../controllers/user")
-const express = require("express")
+const userRouteController = require("../controllers/user");
+const express = require("express");
+const { createUserSchema } = require("../middleware/schemas/userSchema");
+const validateRequest = require("../middleware/validate");
 
 const router = express.Router();
 
-router.post("/user",userRouteController.createUser)
-router.get("/user/:userId",userRouteController.getUser)
+router.post(
+  "/user",
+  validateRequest(createUserSchema),
+  userRouteController.createUser
+);
+router.get("/user/:userId", userRouteController.getUser);
 
-module.exports = router
+module.exports = router;

@@ -14,17 +14,6 @@ class UserService {
     role = "user"
   ) {
     try {
-      if (
-        !first_name ||
-        !last_name ||
-        !email ||
-        !username ||
-        !password ||
-        !phone_number ||
-        !role
-      ) {
-        throw new Error("All fields are required XD");
-      }
       const existingUser = await User.findOne({
         where: {
           [Op.or]: [{ email: email }, { username: username }],
@@ -53,7 +42,7 @@ class UserService {
 
       return new UserResponseDTO(newUser);
     } catch (err) {
-      console.log(`Error creating user: ${err.message}`);
+      throw new Error(err);
     }
   }
   static async getUserById(user_id) {
