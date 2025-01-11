@@ -5,15 +5,16 @@ const express = require("express");
 
 // const { createTables } = require("./config/db");
 const { syncDatabase } = require("./config/database");
-const sequelize = require("./config/database");
-const defineAssociations = require("./models_sqlz/associations");
+const defineAssociations = require("./models/associations");
 
-const User = require("./models_sqlz/User");
+const userRouter = require("./routes/user");
 
 const app = express();
 const port = 3000;
 
 app.use(express.json());
+
+app.use("/", userRouter);
 
 const startServer = async () => {
   // await createTables(); // Inicjalizacja tabel
@@ -25,18 +26,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-const inicjalizacjaModelu = async () => {
-  const newUser = await User.create({
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe@example.com",
-    username: "johndoe",
-    password: "securepassword123",
-    phone_number: "123456789",
-    role: "user",
-  });
-  console.log(newUser);
-};
-
-inicjalizacjaModelu();

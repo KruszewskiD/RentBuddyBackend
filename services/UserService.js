@@ -1,46 +1,73 @@
-const User = require("../models/User")
-const { pool } = require("../config/db")
-
+const User = require("../models/User");
+const { pool } = require("../config/db");
+const UserResponseDTO = require("./DTOs/UserResponseDTO");
+const { Op } = require("sequelize");
 
 class UserService {
-    static async createUser(first_name, last_name, email, username, password, role = "user") {
-        try {
-            if (!first_name || !last_name || !email || !username || !password || !role) {
-                throw new Error("All fields are required");
-            }
+  static async createUser(
+    first_name,
+    last_name,
+    email,
+    username,
+    password,
+    phone_number,
+    role = "user"
+  ) {
+    try {
+      if (
+        !first_name ||
+        !last_name ||
+        !email ||
+        !username ||
+        !password ||
+        !phone_number ||
+        !role
+      ) {
+        throw new Error("All fields are required XD");
+      }
+      const existingUser = await User.findOne({
+        where: {
+          [Op.or]: [{ email: email }, { username: username }],
+        },
+      });
 
-            const existingUserByEmail = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-            if (existingUserByEmail.rows.length > 0) {
-                throw new Error("Email already in use");
-            }
-
-            const existingUserByUsername = await User.findByUsername(username)
-
-            if (existingUserByUsername) {
-                throw new Error("This username is registred in database. Try diffrent one.")
-            }
-
-            const newUser = await User.create(first_name, last_name, email, username, password, role)
-
-            return newUser
-        } catch (err) {
-            console.log(`Error creating user: ${err.message}`);
-            return {}
+      if (existingUser) {
+        if (existingUser.email === email) {
+          throw new Error("Email already in use");
+        } else if (existingUser.username === username) {
+          throw new Error(
+            "This username is registered in database. Try a different one."
+          );
         }
-    }
-    static async findById(user_id) {
-        try {
-            if (!user_id) {
-                throw new Error("Pass user_id!")
-            }
-            const existingUserById = await User.findById(user_id)
-            return existingUserById
+      }
 
-        } catch (e) {
-            throw new Error("Error:" + e)
+      const newUser = await User.create({
+        first_name,
+        last_name,
+        email,
+        username,
+        password,
+        phone_number,
+        role,
+      });
 
-        }
+      return new UserResponseDTO(newUser);
+    } catch (err) {
+      console.log(`Error creating user: ${err.message}`);
     }
+  }
+  static async getUserById(user_id) {
+    try {
+      if (!user_id) {
+        throw new Error("Pass user_id!");
+      }
+      const existingUserById = await User.findByPk(user_id);
+      if (existingUserById === null) return;
+      return new UserResponseDTO(existingUserById);
+    } catch (e) {
+      throw new Error("Error:" + e);
+    }
+  }
 }
 
 module.exports = UserService;
