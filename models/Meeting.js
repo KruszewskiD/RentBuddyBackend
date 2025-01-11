@@ -1,46 +1,51 @@
-class Meeting {
-    constructor(meetingId, title, description, startTime, endTime, creatorId, participantId) {
-        this.meetingId = meetingId;
-        this.title = title;
-        this.description = description;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.creatorId = creatorId;
-        this.participantId = participantId;
-      }
-    static async create(title, desc, start_time, end_time, creator_id, participant_id){
-        const result = await pool.query(`
-            INSERT 
-            INTO meetings (title, description, start_time, end_time, creator_id, participant_id) 
-            VALUES ($1, $2, $3, $4, $5, $6) RETURNING *
-            `, [title, desc, start_time, end_time, creator_id, participant_id])
-        const meeting= result.rows[0]
-        return new Meeting(meeting.meeting_id, meeting.title, meeting.description, meeting.start_time, meeting.end_time, meeting.creator_id, meeting.participant_id)
-    }
-    static async findById(meeting_id){
-        const result = await pool.query(`
-            SELECT * FROM meetings WHERE meeting_id=$1
-            `, [meeting_id])
-        const meeting= result.rows[0]
-        return new Meeting(meeting.meeting_id, meeting.title, meeting.description, meeting.start_time, meeting.end_time, meeting.creator_id, meeting.participant_id)
-    }
-    static async findByUserId(creator_id, participant_id){
-        const result = await pool.query(`
-            SELECT * FROM meetings WHERE creator_id=$1 OR participant_id=$2
-            `, [creator_id, participant_id])
-        const meeting= result.rows[0]
-        // TODO: Przerobić to na map, poniewa moze zwracac tablice spotkan dla danego uzytkownika
-        return new Meeting(meeting.meeting_id, meeting.title, meeting.description, meeting.start_time, meeting.end_time, meeting.creator_id, meeting.participant_id)
-    }
-    async update(){
-        const result = await pool.query(`
-           UPDATE meetings 
-           SET title = $1, description = $2, start_time = $3, end_time = $4, participant_id = $5
-           WHERE meeting_id = $6 RETURNING *
-       `, [this.title, this.description, this.startTime, this.endTime, this.participantId, this.meetingId ]);
-       const meeting = result.rows[0];
-       return new Meeting(meeting.meeting_id, meeting.title, meeting.description, meeting.start_time, meeting.end_time, meeting.creator_id, meeting.participant_id)
-   }
-}
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
+
+const Meeting = sequelize.define(
+  "Meeting",
+  {
+    meeting_id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    title: {
+      type: DataTypes.STRING(255),
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    start_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    end_time: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    creator_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "user_id",
+      },
+    },
+    participant_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "users",
+        key: "user_id",
+      },
+    },
+  },
+  {
+    tableName: "meetings",
+    timestamps: false,
+  }
+);
 
 module.exports = Meeting;
