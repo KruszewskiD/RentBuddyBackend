@@ -29,18 +29,33 @@ exports.createProperty = async (req, res) => {
 
 exports.getProperty = async (req, res) => {
   try {
-    const { propertyId } = req.params;
-    const property = await PropertyService.getProperty(propertyId);
+    const { property_id } = req.params;
+    const property = await PropertyService.getProperty(property_id);
     res.status(201).json(property);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 };
 
-exports.getProperties = async (req, res) => {
+exports.getPropertiesByUserId = async (req, res) => {
   try {
-    const { user_id } = req.params;
-    const property = await PropertyService.getProperties(user_id);
+    const { user_id } = req.body;
+    const property = await PropertyService.getPropertiesByUserId(user_id);
+    res.status(201).json(property);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
+
+exports.rentProperty = async (req, res) => {
+  try {
+    const { property_id } = req.params;
+    const { owner_id, tenant_id } = req.body;
+    const property = await PropertyService.rentProperty(
+      property_id,
+      tenant_id,
+      owner_id
+    );
     res.status(201).json(property);
   } catch (e) {
     res.status(500).json({ message: e.message });

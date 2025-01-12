@@ -4,6 +4,7 @@ const Issue = require("./Issue");
 const Invoice = require("./Invoice");
 const Meeting = require("./Meeting");
 const Agreement = require("./Agreement");
+const Invitation = require("./Invitation"); // Model zaproszenia
 
 const defineAssociations = () => {
   // Relacje dla User
@@ -42,6 +43,11 @@ const defineAssociations = () => {
   Agreement.belongsTo(Property, { foreignKey: "property_id" });
   Agreement.belongsTo(User, { foreignKey: "owner_id" });
   Agreement.belongsTo(User, { foreignKey: "tenant_id" });
+
+  // Relacje dla Invitation
+  Invitation.belongsTo(User, { foreignKey: "owner_id", as: "owner" });
+  Invitation.belongsTo(User, { foreignKey: "tenant_id", as: "tenant" });
+  Invitation.belongsTo(Property, { foreignKey: "property_id", as: "property" });
 };
 
 module.exports = defineAssociations;

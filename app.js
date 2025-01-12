@@ -9,6 +9,7 @@ const defineAssociations = require("./models/associations");
 
 const userRouter = require("./routes/user");
 const propertyRouter = require("./routes/property");
+const invitationRouter = require("./routes/invitation");
 
 const app = express();
 const port = 3000;
@@ -17,6 +18,7 @@ app.use(express.json());
 
 app.use("/", userRouter);
 app.use("/", propertyRouter);
+app.use("/", invitationRouter);
 
 const startServer = async () => {
   // await createTables(); // Inicjalizacja tabel

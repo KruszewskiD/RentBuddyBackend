@@ -15,15 +15,6 @@ class PropertyService {
     tenant_id = null
   ) {
     try {
-      console.log(
-        "Service:" + title,
-        description,
-        city,
-        street,
-        street_number,
-        owner_id,
-        tenant_id
-      );
       const existingProperty = await Property.findOne({
         where: {
           [Op.and]: {
@@ -33,7 +24,6 @@ class PropertyService {
           },
         },
       });
-      console.log("istniejaca:" + existingProperty);
       if (existingProperty) {
         throw new Error("Property already created!");
       }
@@ -47,33 +37,35 @@ class PropertyService {
         owner_id,
         tenant_id,
       });
-      console.log(newProperty);
+
       return newProperty;
     } catch (err) {
       throw new Error(err);
     }
   }
-  static async rentProperty(property_id, tenant_id) {
+  static async rentProperty(property_id, tenant_id, owner_id) {
     try {
-      if (!tenant_id && !property_id) {
-        throw new Error("Tenant ID and Property ID are required fields!");
-      }
-      const existingPropertyByPropertyId = await Property.findById(property_id);
-      if (!existingPropertyByPropertyId) {
-        throw new Error("Could not find propety with this propert_id");
-      }
-      const doesTenatExist = UserService.findById(tenant_id);
-      if (!doesTenatExist) {
-        throw new Error("Could not find propety with this propert_id");
-      }
-      const rent = existingPropertyByPropertyId.rent(tenant_id);
-      return rent;
+      //TODO: Dodać walidacje czy istnieją argumenty.
+      const rent = await Property.update(
+        { tenant_id: tenant_id },
+        {
+          where: {
+            [Op.and]: [{ owner_id: owner_id }, { property_id: property_id }],
+          },
+          returning: true,
+        }
+      );
+
+      console.log(rent[1][0].dataValues);
+      const responseDTO = new PropertyResponseDTO(rent[1][0].dataValues);
+      console.log(responseDTO);
+      return responseDTO;
     } catch (err) {
       throw new Error(`Error creating property: ${err.message}`);
     }
   }
 
-  static async getProperties(user_id) {
+  static async getPropertiesByUserId(user_id) {
     try {
       if (!user_id) return;
       const userProperties = await Property.findAll({
@@ -85,6 +77,19 @@ class PropertyService {
       return userProperties.map(
         (property) => new PropertyResponseDTO(property)
       );
+    } catch (err) {
+      throw new Error(err);
+    }
+  }
+
+  static async getProperty(property_id) {
+    try {
+      if (!property_id) {
+        throw new Error("There is no property_id passed!");
+      }
+      const property = await Property.findByPk(property_id);
+
+      return new PropertyResponseDTO(property);
     } catch (err) {
       throw new Error(err);
     }

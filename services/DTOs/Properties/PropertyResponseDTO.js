@@ -7,7 +7,7 @@ class PropertyResponseDTO {
     this.street = property.street;
     this.street_number = property.street_number;
     this.owner_id = property.owner_id;
-    this.tenant_id == property.tenant_id;
+    this.tenant_id = property.tenant_id;
   }
 }
 
