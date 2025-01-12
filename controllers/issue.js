@@ -32,3 +32,13 @@ exports.updateIssueStatus = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.getIssuesByUserId = async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    const issues = await IssueService.getIssuesByUserId(user_id);
+    res.status(201).json(issues);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};

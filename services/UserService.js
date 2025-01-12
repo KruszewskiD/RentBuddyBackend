@@ -46,16 +46,12 @@ class UserService {
     }
   }
   static async getUserById(user_id) {
-    try {
-      if (!user_id) {
-        throw new Error("Pass user_id!");
-      }
-      const existingUserById = await User.findByPk(user_id);
-      if (existingUserById === null) return;
-      return new UserResponseDTO(existingUserById);
-    } catch (e) {
-      throw new Error("Error:" + e);
+    if (!user_id) {
+      throw new Error("Pass user_id!");
     }
+    const existingUserById = await User.findByPk(user_id);
+    if (existingUserById === null) return;
+    return new UserResponseDTO(existingUserById);
   }
 }
 

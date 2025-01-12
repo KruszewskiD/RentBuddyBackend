@@ -12,6 +12,7 @@ const propertyRouter = require("./routes/property");
 const invitationRouter = require("./routes/invitation");
 const invoiceRouter = require("./routes/invoice");
 const issueRouter = require("./routes/issue");
+const meetingRouter = require("./routes/meeting");
 
 const app = express();
 const port = 3000;
@@ -23,6 +24,7 @@ app.use("/", propertyRouter);
 app.use("/", invitationRouter);
 app.use("/", invoiceRouter);
 app.use("/", issueRouter);
+app.use("/", meetingRouter);
 
 const startServer = async () => {
   // await createTables(); // Inicjalizacja tabel

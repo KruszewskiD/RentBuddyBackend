@@ -38,3 +38,13 @@ exports.updateInvoiceStatus = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.getInvoicesByUserId = async (req, res) => {
+  try {
+    const { user_id } = req.body;
+    const invoices = await InvoiceSerivce.getInvoicesByUserId(user_id);
+    res.status(201).json(invoices);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};

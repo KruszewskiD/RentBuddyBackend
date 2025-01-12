@@ -8,5 +8,6 @@ router.put(
   "/invoice/:invoice_id/status",
   invoiceRouteController.updateInvoiceStatus
 );
+router.get("/user-invoices", invoiceRouteController.getInvoicesByUserId);
 
 module.exports = router;

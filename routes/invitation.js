@@ -9,4 +9,9 @@ router.put(
   invitationRouteController.changeInvitationStatus
 );
 
+router.get(
+  "/user-invitations",
+  invitationRouteController.getInvitationByUserId
+);
+
 module.exports = router;

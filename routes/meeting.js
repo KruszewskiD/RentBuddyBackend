@@ -1,9 +1,13 @@
-const meetingRouteController = require("../controllers/meeting")
-const express = require("express")
+const meetingRouteController = require("../controllers/meeting");
+const express = require("express");
 
 const router = express.Router();
 
-router.post("/meeting", meetingRouteController.createMeeting)
-router.get("/meeting/:meetingId",meetingRouteController.getMeeting)
+router.post("/meeting", meetingRouteController.createMeeting);
+router.put(
+  "/meeting/:meeting_id/status",
+  meetingRouteController.updateMeetingStatus
+);
+router.get("/user-meetings", meetingRouteController.getMeetingsByUserId);
 
-module.exports = router
+module.exports = router;

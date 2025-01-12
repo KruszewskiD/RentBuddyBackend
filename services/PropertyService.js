@@ -67,20 +67,14 @@ class PropertyService {
   }
 
   static async getPropertiesByUserId(user_id) {
-    try {
-      if (!user_id) return;
-      const userProperties = await Property.findAll({
-        where: {
-          [Op.or]: [{ owner_id: user_id }, { tenant_id: user_id }],
-        },
-      });
+    if (!user_id) return;
+    const userProperties = await Property.findAll({
+      where: {
+        [Op.or]: [{ owner_id: user_id }, { tenant_id: user_id }],
+      },
+    });
 
-      return userProperties.map(
-        (property) => new PropertyResponseDTO(property)
-      );
-    } catch (err) {
-      throw new Error(err);
-    }
+    return userProperties.map((property) => new PropertyResponseDTO(property));
   }
 
   static async getProperty(property_id) {

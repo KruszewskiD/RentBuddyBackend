@@ -1,18 +1,15 @@
+const { Op } = require("sequelize");
 const Invitation = require("../models/Invitation");
 const PropertyService = require("./PropertyService");
 
 class InvitationService {
   static async create(owner_id, tenant_id, property_id) {
-    try {
-      const invitation = await Invitation.create({
-        owner_id: owner_id,
-        tenant_id: tenant_id,
-        property_id: property_id,
-      });
-      return invitation;
-    } catch (err) {
-      throw new Error(err);
-    }
+    const invitation = await Invitation.create({
+      owner_id: owner_id,
+      tenant_id: tenant_id,
+      property_id: property_id,
+    });
+    return invitation;
   }
 
   static async updateInvitationStatus(tenant_id, invitation_id, status) {
@@ -44,6 +41,19 @@ class InvitationService {
     invitation.status = status;
     invitation.save();
     return invitation;
+  }
+
+  static async getInvitationsByUserId(user_id) {
+    if (!user_id) {
+      throw new Error("Missing user_id.");
+    }
+    const userInvitations = await Invitation.findAll({
+      where: {
+        [Op.or]: [{ owner_id: user_id }, { tenant_id: user_id }],
+      },
+    });
+
+    return userInvitations;
   }
 }
 

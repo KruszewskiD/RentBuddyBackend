@@ -1,5 +1,6 @@
 const Issue = require("../models/Issue");
 const { pool } = require("../config/db");
+const { Op } = require("sequelize");
 
 class IssueService {
   static async createIssue(
@@ -44,6 +45,19 @@ class IssueService {
     issue.resolve_status = resolve_status;
     issue.save();
     return issue;
+  }
+
+  static async getIssuesByUserId(user_id) {
+    if (!user_id) {
+      throw new Error("Missing user_id.");
+    }
+    const userIssues = await Issue.findAll({
+      where: {
+        [Op.or]: [{ owner_id: user_id }, { tenant_id: user_id }],
+      },
+    });
+
+    return userIssues;
   }
 }
 

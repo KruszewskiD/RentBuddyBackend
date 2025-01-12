@@ -10,6 +10,6 @@ router.post(
   validateRequest(createUserSchema),
   userRouteController.createUser
 );
-router.get("/user/:userId", userRouteController.getUser);
+router.get("/user/:user_id", userRouteController.getUser);
 
 module.exports = router;

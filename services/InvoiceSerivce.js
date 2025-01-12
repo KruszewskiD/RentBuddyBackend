@@ -1,5 +1,6 @@
 const Invoice = require("../models/Invoice");
 const { pool } = require("../config/db");
+const { Op } = require("sequelize");
 
 class InvoiceSerivce {
   static async createInvoice(
@@ -44,6 +45,19 @@ class InvoiceSerivce {
     invoice.status = status;
     invoice.save();
     return invoice;
+  }
+
+  static async getInvoicesByUserId(user_id) {
+    if (!user_id) {
+      throw new Error("Missing user_id.");
+    }
+    const userInvoices = await Invoice.findAll({
+      where: {
+        [Op.or]: [{ sender_id: user_id }, { receiver_id: user_id }],
+      },
+    });
+
+    return userInvoices;
   }
 }
 

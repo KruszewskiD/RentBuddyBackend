@@ -30,7 +30,13 @@ exports.changeInvitationStatus = async (req, res) => {
 };
 
 exports.getInvitationByUserId = async (req, res) => {
-  //TODO
+  try {
+    const { user_id } = req.body;
+    const invitations = await InvitationService.getInvitationsByUserId(user_id);
+    res.status(201).json(invitations);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
 };
 
 exports.getInvitationById = async (req, res) => {

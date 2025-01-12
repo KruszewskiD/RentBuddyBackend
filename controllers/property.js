@@ -40,8 +40,8 @@ exports.getProperty = async (req, res) => {
 exports.getPropertiesByUserId = async (req, res) => {
   try {
     const { user_id } = req.body;
-    const property = await PropertyService.getPropertiesByUserId(user_id);
-    res.status(201).json(property);
+    const properties = await PropertyService.getPropertiesByUserId(user_id);
+    res.status(201).json(properties);
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

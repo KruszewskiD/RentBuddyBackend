@@ -41,6 +41,11 @@ const Meeting = sequelize.define(
         key: "user_id",
       },
     },
+    status: {
+      type: DataTypes.ENUM("pending", "accepted", "rejected"),
+      allowNull: false,
+      defaultValue: "pending", // Domyślnie zaproszenie jest oczekujące
+    },
   },
   {
     tableName: "meetings",
