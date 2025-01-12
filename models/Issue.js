@@ -17,7 +17,7 @@ const Issue = sequelize.define(
         key: "property_id",
       },
     },
-    creator_id: {
+    tenant_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -25,7 +25,7 @@ const Issue = sequelize.define(
         key: "user_id",
       },
     },
-    resolver_id: {
+    owner_id: {
       type: DataTypes.INTEGER,
       references: {
         model: "users",
@@ -39,7 +39,7 @@ const Issue = sequelize.define(
     resolve_status: {
       type: DataTypes.STRING(50),
       allowNull: false,
-      defaultValue: "open",
+      defaultValue: "pending",
     },
     title: {
       type: DataTypes.TEXT,

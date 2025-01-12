@@ -1,21 +1,34 @@
-const IssueService = require("../services/IssueService")
+const IssueService = require("../services/IssueService");
 
 exports.createIssue = async (req, res) => {
-    try{
-        const {amount, senderId, receiverId, propertyId} = req.body;
-        const issue = await IssueService.createIssue(amount, senderId, receiverId, propertyId)
-        res.status(201).json(issue)
-    }catch(e){
-        res.status(500).json({message: e.message})
-    }
-}
+  try {
+    const { property_id, tenant_id, owner_id, description, title, date } =
+      req.body;
+    const issue = await IssueService.createIssue(
+      property_id,
+      tenant_id,
+      owner_id,
+      description,
+      title,
+      date
+    );
+    res.status(201).json(issue);
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+};
 
-exports.getIssue = async (req, res) => {
-    try{
-        const {issueId} = req.params;
-        const issue = await IssueService.getIssue(issueId)
-        res.status(201).json(issue)
-    }catch(e){
-        res.status(500).json({message: e.message})
-    }
-}
+exports.updateIssueStatus = async (req, res) => {
+  try {
+    const { issue_id } = req.params;
+    const { owner_id, resolve_status } = req.body;
+    const issue = await IssueService.updateIssueStatus(
+      owner_id,
+      issue_id,
+      resolve_status
+    );
+    res.status(201).json(issue);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};

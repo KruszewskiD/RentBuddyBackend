@@ -9,8 +9,8 @@ const Invitation = require("./Invitation"); // Model zaproszenia
 const defineAssociations = () => {
   // Relacje dla User
   User.hasMany(Property, { foreignKey: "owner_id" });
-  User.hasMany(Issue, { foreignKey: "creator_id" });
-  User.hasMany(Issue, { foreignKey: "resolver_id" });
+  User.hasMany(Issue, { foreignKey: "tenant_id" });
+  User.hasMany(Issue, { foreignKey: "owner_id" });
   User.hasMany(Invoice, { foreignKey: "sender_id" });
   User.hasMany(Invoice, { foreignKey: "receiver_id" });
   User.hasMany(Meeting, { foreignKey: "creator_id" });
@@ -27,8 +27,8 @@ const defineAssociations = () => {
 
   // Relacje dla Issue
   Issue.belongsTo(Property, { foreignKey: "property_id" });
-  Issue.belongsTo(User, { foreignKey: "creator_id" });
-  Issue.belongsTo(User, { foreignKey: "resolver_id" });
+  Issue.belongsTo(User, { foreignKey: "tenant_id" });
+  Issue.belongsTo(User, { foreignKey: "owner_id" });
 
   // Relacje dla Invoice
   Invoice.belongsTo(User, { foreignKey: "sender_id" });
