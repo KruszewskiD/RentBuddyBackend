@@ -37,6 +37,14 @@ const Property = sequelize.define(
         key: "user_id",
       },
     },
+    tenant_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "user_id",
+      },
+    },
   },
   {
     tableName: "properties",

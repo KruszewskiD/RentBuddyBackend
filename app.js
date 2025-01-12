@@ -8,6 +8,7 @@ const { syncDatabase } = require("./config/database");
 const defineAssociations = require("./models/associations");
 
 const userRouter = require("./routes/user");
+const propertyRouter = require("./routes/property");
 
 const app = express();
 const port = 3000;
@@ -15,6 +16,7 @@ const port = 3000;
 app.use(express.json());
 
 app.use("/", userRouter);
+app.use("/", propertyRouter);
 
 const startServer = async () => {
   // await createTables(); // Inicjalizacja tabel

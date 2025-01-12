@@ -19,6 +19,7 @@ const defineAssociations = () => {
 
   // Relacje dla Property
   Property.belongsTo(User, { foreignKey: "owner_id" });
+  Property.belongsTo(User, { foreignKey: "tenant_id" });
   Property.hasMany(Issue, { foreignKey: "property_id" });
   Property.hasMany(Invoice, { foreignKey: "property_id" });
   Property.hasMany(Agreement, { foreignKey: "property_id" });
