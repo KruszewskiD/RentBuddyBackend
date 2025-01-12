@@ -1,9 +1,12 @@
-const invoiceRouteController = require("../controllers/invoice")
-const express = require("express")
+const invoiceRouteController = require("../controllers/invoice");
+const express = require("express");
 
 const router = express.Router();
 
-router.post("/invoice", invoiceRouteController.createInvoice)
-router.get("/invoice/:invoiceId",invoiceRouteController.getInvoice)
+router.post("/invoice", invoiceRouteController.createInvoice);
+router.put(
+  "/invoice/:invoice_id/status",
+  invoiceRouteController.updateInvoiceStatus
+);
 
-module.exports = router
+module.exports = router;

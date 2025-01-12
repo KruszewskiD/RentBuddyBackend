@@ -1,42 +1,50 @@
 const Invoice = require("../models/Invoice");
-const { pool } = require("../config/db")
+const { pool } = require("../config/db");
 
-class InvoiceSerivce{
-    static async createInvoice(amount, senderId, receiverId, propertyId){
-        try{
-            if (!amount || !senderId || !receiverId || !propertyId) {
-                throw new Error("All fields are required");
-            }
+class InvoiceSerivce {
+  static async createInvoice(
+    amount,
+    sender_id,
+    receiver_id,
+    property_id,
+    payment_deadline,
+    invoice_title
+  ) {
+    const invoice = await Invoice.create({
+      amount,
+      sender_id,
+      receiver_id,
+      property_id,
+      payment_deadline,
+      invoice_title,
+    });
+    return invoice;
+  }
 
-            const newInvoice = await Invoice.create(amount, senderId, receiverId, propertyId)
-            
-            return newInvoice
-        }catch(error){
-            throw new Error(`Error creating invoice: ${error.message}`);
-        }
+  static async updateInvoiceStatus(receiver_id, invoice_id, status) {
+    if (status !== "confirmed") {
+      throw new Error('Invalid status. Use "confirmed"');
     }
-    static async findInvoiceByUserId(user_id){
-        try{
-            if(!user_id) throw new Error("All fields are required");
+    const invoice = await Invoice.findByPk(invoice_id);
 
-            const sendedInvoices = await Invoice.findBySenderId(user_id)
-            const recivedInvoices = await Invoice.findByReciverId(user_id)
-        
-            return{
-                sendedInvoices,
-                recivedInvoices
-            }
-
-        }catch(error){
-            
-            throw new Error(`Error finding invoices: ${err.message}`);
-        
-        }
-
+    if (invoice.receiver_id !== receiver_id) {
+      throw new Error("You are not authorized to update this invoice.");
     }
-    static updateInvoice(){
-        //TODO: Update invoice data in DB
+
+    if (!invoice) {
+      throw new Error("Invoice not found.");
     }
+
+    if (invoice.status !== "Created") {
+      throw new Error(
+        'Cannot update invoice. Only "Created" invoice can be updated.'
+      );
+    }
+    invoice.updated_at = new Date().toISOString();
+    invoice.status = status;
+    invoice.save();
+    return invoice;
+  }
 }
 
 module.exports = InvoiceSerivce;

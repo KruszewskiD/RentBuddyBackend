@@ -50,6 +50,10 @@ const Invoice = sequelize.define(
       type: DataTypes.DATE,
       defaultValue: DataTypes.NOW,
     },
+    payment_deadline: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
     invoice_title: {
       type: DataTypes.STRING(100),
       allowNull: false,
