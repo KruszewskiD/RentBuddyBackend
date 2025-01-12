@@ -55,6 +55,7 @@ class PropertyService {
           returning: true,
         }
       );
+      console.log(rent);
 
       console.log(rent[1][0].dataValues);
       const responseDTO = new PropertyResponseDTO(rent[1][0].dataValues);

@@ -6,6 +6,7 @@ const Invitation = sequelize.define(
   {
     invitation_id: {
       type: DataTypes.INTEGER,
+      allowNull: false,
       primaryKey: true,
       autoIncrement: true,
     },

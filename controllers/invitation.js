@@ -14,6 +14,21 @@ exports.createInvitation = async (req, res) => {
   }
 };
 
+exports.changeInvitationStatus = async (req, res) => {
+  try {
+    const { invitation_id } = req.params;
+    const { tenant_id, status } = req.body;
+    const invitation = await InvitationService.updateInvitationStatus(
+      tenant_id,
+      invitation_id,
+      status
+    );
+    res.status(201).json(invitation);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.getInvitationByUserId = async (req, res) => {
   //TODO
 };
