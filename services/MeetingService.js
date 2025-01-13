@@ -1,5 +1,4 @@
 const Meeting = require("../models/Meeting");
-const { pool } = require("../config/db");
 const { Op } = require("sequelize");
 
 class MeetingService {

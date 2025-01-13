@@ -1,5 +1,4 @@
 const Issue = require("../models/Issue");
-const { pool } = require("../config/db");
 const { Op } = require("sequelize");
 
 class IssueService {

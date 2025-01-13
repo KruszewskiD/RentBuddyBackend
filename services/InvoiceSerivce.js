@@ -1,5 +1,5 @@
 const Invoice = require("../models/Invoice");
-const { pool } = require("../config/db");
+
 const { Op } = require("sequelize");
 
 class InvoiceSerivce {

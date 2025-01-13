@@ -1,5 +1,4 @@
 const User = require("../models/User");
-const { pool } = require("../config/db");
 const UserResponseDTO = require("./DTOs/Users/UserResponseDTO");
 const { Op } = require("sequelize");
 

@@ -1,6 +1,4 @@
 const Property = require("../models/Property");
-const { pool } = require("../config/db");
-const UserService = require("./UserService");
 const { Op } = require("sequelize");
 const PropertyResponseDTO = require("./DTOs/Properties/PropertyResponseDTO");
 
