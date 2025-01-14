@@ -27,7 +27,6 @@ app.use("/", issueRouter);
 app.use("/", meetingRouter);
 
 const startServer = async () => {
-  // await createTables(); // Inicjalizacja tabel
   defineAssociations();
   syncDatabase();
   app.listen(port, () => {
