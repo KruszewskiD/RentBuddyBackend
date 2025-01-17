@@ -3,7 +3,6 @@ dotenv.config();
 
 const express = require("express");
 
-// const { createTables } = require("./config/db");
 const { syncDatabase } = require("./config/database");
 const defineAssociations = require("./models/associations");
 
