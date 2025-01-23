@@ -12,6 +12,7 @@ const invitationRouter = require("./routes/invitation");
 const invoiceRouter = require("./routes/invoice");
 const issueRouter = require("./routes/issue");
 const meetingRouter = require("./routes/meeting");
+const authenticationRouter = require("./routes/authentication");
 
 const app = express();
 const port = 3000;
@@ -24,6 +25,7 @@ app.use("/", invitationRouter);
 app.use("/", invoiceRouter);
 app.use("/", issueRouter);
 app.use("/", meetingRouter);
+app.use("/", authenticationRouter);
 
 const startServer = async () => {
   defineAssociations();
